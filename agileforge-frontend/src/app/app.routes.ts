@@ -22,6 +22,7 @@ export const routes: Routes = [
       { path: 'sprints', loadComponent: () => import('./features/sprint/sprint.component').then(m => m.SprintComponent) },
       { path: 'ai', loadComponent: () => import('./features/ai/ai-assistant.component').then(m => m.AiAssistantComponent) },
       { path: 'search', loadComponent: () => import('./features/search/search.component').then(m => m.SearchComponent) },
+      { path: 'profile', loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

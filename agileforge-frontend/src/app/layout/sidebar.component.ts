@@ -37,7 +37,7 @@ import { AuthService } from '../core/services/auth.service';
 
       <div class="sidebar-footer">
         <div class="user-info">
-          <span class="user-name">{{ authService.user()?.firstName }} {{ authService.user()?.lastName }}</span>
+          <a routerLink="/profile" class="user-name-link">{{ authService.user()?.firstName }} {{ authService.user()?.lastName }}</a>
           <button (click)="authService.logout()" class="logout-btn">Logout</button>
         </div>
       </div>
@@ -88,7 +88,8 @@ import { AuthService } from '../core/services/auth.service';
       border-top: 1px solid #2d3139;
     }
     .user-info { display: flex; flex-direction: column; gap: 8px; }
-    .user-name { font-size: 0.85rem; color: #8b949e; }
+    .user-name-link { font-size: 0.85rem; color: #8b949e; text-decoration: none; }
+    .user-name-link:hover { color: #58a6ff; }
     .logout-btn {
       background: none;
       border: 1px solid #30363d;
