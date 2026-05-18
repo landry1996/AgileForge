@@ -2,8 +2,8 @@
 
 ## Statut Global
 - **Phase actuelle** : MVP v1.0 - Foundation
-- **Bloc en cours** : Bloc 10 - Notifications & Recherche ✅ TERMINE
-- **Prochain bloc** : Bloc 11 - Tests E2E & Polish
+- **Bloc en cours** : Bloc 11 - Tests, Activity Feed & Profil ✅ TERMINE
+- **Prochain bloc** : Bloc 12 - Polish & Améliorations
 - **Dernière mise à jour** : 2026-05-18
 - **Build** : ✅ SUCCESS (Java 25 + Spring Boot 3.4.4 + Lombok 1.18.38)
 
@@ -214,6 +214,20 @@ _Aucune - Bloc 2 terminé_
 - [x] Route /search ajoutée (lazy-loaded)
 - [x] BUILD SUCCESS backend (71 tests, 0 failures)
 - [x] BUILD SUCCESS frontend (ng build)
+
+### Bloc 11 - Tests, Activity Feed & Profil Utilisateur ✅ TERMINE
+- [x] Tests unitaires NotificationService (10 tests : send, notify*, getByUserId, unread, markRead)
+- [x] Tests unitaires SearchService (6 tests : query, filters, pagination, cap size, empty)
+- [x] Tests intégration NotificationController (6 tests : list, unread, count, markRead, markAll, 401)
+- [x] Tests intégration SearchController (5 tests : search, filter, empty, pagination, 401)
+- [x] ActivityController (GET /activity/project/{id}, GET /activity/my — feed d'activité récente)
+- [x] ProfileController (GET /profile, PUT /profile — consultation/modification profil)
+- [x] DTOs : ActivityResponse, ProfileResponse, UpdateProfileRequest
+- [x] Frontend : ActivityService + ProfileService
+- [x] Frontend : ProfileComponent (formulaire éditable + timeline activité récente)
+- [x] Route /profile ajoutée + lien dans sidebar
+- [x] Total : 97 tests, 0 failures, 0 errors
+- [x] BUILD SUCCESS backend + frontend
 
 ---
 
