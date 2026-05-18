@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine:///agileforge_test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    clean-disabled: false
+
+agileforge:
+  security:
+    jwt:
+      secret-key: dGVzdC1zZWNyZXQta2V5LWZvci1hZ2lsZWZvcmdlLXRlc3RpbmctcHVycG9zZXMtb25seQ==
+      access-token-expiration: 900000
+      refresh-token-expiration: 3600000
