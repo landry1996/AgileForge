@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'backlog', loadComponent: () => import('./features/backlog/backlog.component').then(m => m.BacklogComponent) },
       { path: 'sprints', loadComponent: () => import('./features/sprint/sprint.component').then(m => m.SprintComponent) },
       { path: 'ai', loadComponent: () => import('./features/ai/ai-assistant.component').then(m => m.AiAssistantComponent) },
+      { path: 'search', loadComponent: () => import('./features/search/search.component').then(m => m.SearchComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

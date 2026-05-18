@@ -2,8 +2,8 @@
 
 ## Statut Global
 - **Phase actuelle** : MVP v1.0 - Foundation
-- **Bloc en cours** : Bloc 8 - Frontend Angular ✅ TERMINE
-- **Prochain bloc** : Bloc 9 - Intégration & Déploiement
+- **Bloc en cours** : Bloc 10 - Notifications & Recherche ✅ TERMINE
+- **Prochain bloc** : Bloc 11 - Tests E2E & Polish
 - **Dernière mise à jour** : 2026-05-18
 - **Build** : ✅ SUCCESS (Java 25 + Spring Boot 3.4.4 + Lombok 1.18.38)
 
@@ -180,11 +180,40 @@ _Aucune - Bloc 2 terminé_
 - [x] Global SCSS (dark theme, scrollbar custom)
 - [x] BUILD SUCCESS (ng build)
 
-### Bloc 9 - Intégration & Déploiement
-- [ ] Proxy config Angular → Backend (dev)
-- [ ] Docker Compose full stack (backend + frontend + DB)
-- [ ] CI/CD pipeline (GitHub Actions)
-- [ ] Push initial vers GitHub
+### Bloc 9 - Intégration & Déploiement ✅ TERMINE
+- [x] Proxy config Angular → Backend (dev) — proxy.conf.json
+- [x] Docker Compose full stack (backend + frontend + DB + Redis + Kafka + pgAdmin)
+- [x] Dockerfile frontend (multi-stage: node:22 build → nginx runtime + SPA routing)
+- [x] Dockerfile backend (multi-stage: eclipse-temurin:25-jdk build → jre runtime, non-root)
+- [x] nginx.conf (SPA routing, API proxy, gzip, cache headers)
+- [x] CI/CD pipeline GitHub Actions (backend tests + frontend build + docker build)
+- [x] Push initial vers GitHub ✅
+- [x] BUILD SUCCESS (all services)
+
+### Bloc 10 - Notifications Temps Réel & Recherche Avancée ✅ TERMINE
+- [x] Migration Flyway V5 (table notifications + full-text search index tsvector sur tickets)
+- [x] Modèle domaine Notification + NotificationType enum (8 types)
+- [x] Modèle domaine SearchResult<T> (pagination générique)
+- [x] Port sortant NotificationRepositoryPort (save, findByUserId, markAsRead, markAllAsRead)
+- [x] Port sortant SearchPort (searchTickets avec full-text + filtres)
+- [x] JPA Entity NotificationEntity
+- [x] JPA Repository JpaNotificationRepository (requêtes custom @Query)
+- [x] Adapter NotificationRepositoryAdapter
+- [x] Adapter SearchAdapter (native query avec tsvector + ts_rank PostgreSQL)
+- [x] NotificationService avec SSE (Server-Sent Events) temps réel
+- [x] Méthodes de notification : ticketAssigned, statusChanged, commented, sprintStarted/Completed
+- [x] SearchService (recherche full-text + filtres status/type/priority/assignee + pagination)
+- [x] NotificationController (6 endpoints : stream SSE, list, unread, count, markRead, markAllRead)
+- [x] SearchController (1 endpoint : GET /search/tickets avec filtres multiples)
+- [x] DTOs : NotificationResponse, SearchResponse<T>
+- [x] Frontend : NotificationService (SSE EventSource + signaux réactifs)
+- [x] Frontend : SearchService (HTTP avec HttpParams)
+- [x] Frontend : HeaderComponent (search bar avec dropdown + notification bell avec badge)
+- [x] Frontend : SearchComponent (page complète avec filtres avancés + pagination)
+- [x] Intégration header dans MainLayoutComponent
+- [x] Route /search ajoutée (lazy-loaded)
+- [x] BUILD SUCCESS backend (71 tests, 0 failures)
+- [x] BUILD SUCCESS frontend (ng build)
 
 ---
 
