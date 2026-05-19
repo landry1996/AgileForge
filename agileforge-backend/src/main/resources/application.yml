@@ -24,6 +24,12 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+  # File upload
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   # Jackson
   jackson:
     serialization:
@@ -62,6 +68,8 @@ springdoc:
 
 # Application custom properties
 agileforge:
+  storage:
+    path: ${AGILEFORGE_STORAGE_PATH:./uploads}
   security:
     jwt:
       access-token-expiration: 900000       # 15 minutes

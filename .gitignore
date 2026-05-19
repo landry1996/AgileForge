@@ -23,7 +23,7 @@ application-secret.properties
 .classpath
 .settings/
 bin/
-out/
+/out/
 
 # === OS ===
 .DS_Store
