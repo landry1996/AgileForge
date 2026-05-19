@@ -48,6 +48,12 @@ public class SprintRepositoryAdapter implements SprintRepositoryPort {
         return repository.countByProjectIdAndDeletedFalse(projectId);
     }
 
+    @Override
+    public List<Sprint> findCompletedByProjectId(UUID projectId) {
+        return repository.findByProjectIdAndStatusAndDeletedFalseOrderByEndDateDesc(projectId, "COMPLETED").stream()
+                .map(this::toDomain).toList();
+    }
+
     private SprintEntity toEntity(Sprint domain) {
         SprintEntity entity = new SprintEntity();
         entity.setId(domain.getId());

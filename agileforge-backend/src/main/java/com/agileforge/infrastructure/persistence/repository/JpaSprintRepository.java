@@ -18,4 +18,6 @@ public interface JpaSprintRepository extends JpaRepository<SprintEntity, UUID> {
     Optional<SprintEntity> findByProjectIdAndStatusAndDeletedFalse(UUID projectId, String status);
 
     long countByProjectIdAndDeletedFalse(UUID projectId);
+
+    List<SprintEntity> findByProjectIdAndStatusAndDeletedFalseOrderByEndDateDesc(UUID projectId, String status);
 }

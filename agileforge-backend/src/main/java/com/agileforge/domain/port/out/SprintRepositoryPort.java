@@ -17,4 +17,6 @@ public interface SprintRepositoryPort {
     Optional<Sprint> findActiveByProjectId(UUID projectId);
 
     long countByProjectId(UUID projectId);
+
+    List<Sprint> findCompletedByProjectId(UUID projectId);
 }

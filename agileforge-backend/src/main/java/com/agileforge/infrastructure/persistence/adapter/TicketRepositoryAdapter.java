@@ -90,6 +90,13 @@ public class TicketRepositoryAdapter implements TicketRepositoryPort {
         return repository.countByProjectIdAndStatusAndDeletedFalse(projectId, status.name());
     }
 
+    @Override
+    public List<Ticket> findByProjectIdAndStatusIn(UUID projectId, List<TicketStatus> statuses) {
+        List<String> statusNames = statuses.stream().map(TicketStatus::name).toList();
+        return repository.findByProjectIdAndStatusInAndDeletedFalse(projectId, statusNames).stream()
+                .map(this::toDomain).toList();
+    }
+
     private TicketEntity toEntity(Ticket domain) {
         TicketEntity entity = new TicketEntity();
         entity.setId(domain.getId());

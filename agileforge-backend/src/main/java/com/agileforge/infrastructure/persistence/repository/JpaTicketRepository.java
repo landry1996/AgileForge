@@ -35,4 +35,6 @@ public interface JpaTicketRepository extends JpaRepository<TicketEntity, UUID> {
     long countByProjectIdAndDeletedFalse(UUID projectId);
 
     long countByProjectIdAndStatusAndDeletedFalse(UUID projectId, String status);
+
+    List<TicketEntity> findByProjectIdAndStatusInAndDeletedFalse(UUID projectId, List<String> statuses);
 }

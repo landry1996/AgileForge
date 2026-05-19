@@ -33,4 +33,6 @@ public interface TicketRepositoryPort {
     long countByProjectId(UUID projectId);
 
     long countByProjectIdAndStatus(UUID projectId, TicketStatus status);
+
+    List<Ticket> findByProjectIdAndStatusIn(UUID projectId, List<TicketStatus> statuses);
 }
