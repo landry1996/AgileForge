@@ -1,0 +1,119 @@
+version: '3.9'
+
+services:
+  # === Base de données ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: agileforge-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-agileforge_prod}
+      POSTGRES_USER: ${POSTGRES_USER:-agileforge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-agileforge}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  # === Cache ===
+  redis:
+    image: redis:7-alpine
+    container_name: agileforge-redis
+    restart: always
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  # === Backend ===
+  backend:
+    build:
+      context: ./agileforge-backend
+      dockerfile: Dockerfile
+    container_name: agileforge-backend
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-agileforge_prod}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-agileforge}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      AGILEFORGE_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CLAUDE_API_KEY: ${CLAUDE_API_KEY:-}
+      CORS_ALLOWED_ORIGINS: https://${DOMAIN}
+      JAVA_OPTS: -Xms512m -Xmx1024m -XX:+UseG1GC
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - internal
+
+  # === Frontend ===
+  frontend:
+    build:
+      context: ./agileforge-frontend
+      dockerfile: Dockerfile
+    container_name: agileforge-frontend
+    restart: always
+    networks:
+      - internal
+
+  # === Nginx Reverse Proxy + SSL ===
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: agileforge-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx/nginx-prod.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/nginx/conf.d:/etc/nginx/conf.d:ro
+      - certbot_webroot:/var/www/certbot:ro
+      - certbot_certs:/etc/letsencrypt:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - internal
+
+  # === Certbot (SSL Let's Encrypt) ===
+  certbot:
+    image: certbot/certbot
+    container_name: agileforge-certbot
+    volumes:
+      - certbot_webroot:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - internal
+
+volumes:
+  postgres_data:
+  redis_data:
+  certbot_webroot:
+  certbot_certs:
+
+networks:
+  internal:
+    driver: bridge
