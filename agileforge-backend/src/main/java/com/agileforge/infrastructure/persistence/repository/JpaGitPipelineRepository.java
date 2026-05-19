@@ -13,4 +13,6 @@ public interface JpaGitPipelineRepository extends JpaRepository<GitPipelineEntit
     List<GitPipelineEntity> findByTicketIdOrderByCreatedAtDesc(UUID ticketId);
 
     List<GitPipelineEntity> findByPrIdOrderByCreatedAtDesc(UUID prId);
+
+    List<GitPipelineEntity> findByRepositoryIdOrderByCreatedAtDesc(UUID repositoryId);
 }

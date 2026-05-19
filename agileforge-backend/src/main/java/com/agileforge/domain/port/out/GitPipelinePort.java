@@ -12,4 +12,6 @@ public interface GitPipelinePort {
     List<GitPipeline> findByTicketId(UUID ticketId);
 
     List<GitPipeline> findByPrId(UUID prId);
+
+    List<GitPipeline> findByRepositoryId(UUID repositoryId);
 }

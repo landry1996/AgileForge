@@ -39,6 +39,12 @@ public class GitPipelineAdapter implements GitPipelinePort {
                 .map(this::toDomain).toList();
     }
 
+    @Override
+    public List<GitPipeline> findByRepositoryId(UUID repositoryId) {
+        return repository.findByRepositoryIdOrderByCreatedAtDesc(repositoryId).stream()
+                .map(this::toDomain).toList();
+    }
+
     private GitPipelineEntity toEntity(GitPipeline domain) {
         GitPipelineEntity entity = new GitPipelineEntity();
         entity.setId(domain.getId());
