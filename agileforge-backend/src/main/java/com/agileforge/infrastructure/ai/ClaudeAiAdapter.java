@@ -145,6 +145,133 @@ public class ClaudeAiAdapter implements AiAssistantPort {
         return callClaude(systemPrompt, userPrompt);
     }
 
+    @Override
+    public AcceptanceCriteriaResult generateAcceptanceCriteria(String ticketTitle, String ticketDescription, String ticketType) {
+        String systemPrompt = """
+                You are an expert agile coach. Generate clear, testable acceptance criteria for the given ticket.
+                Also suggest relevant test cases.
+
+                Respond ONLY with a JSON object containing:
+                - criteria: list of acceptance criteria strings (Given/When/Then or checklist format)
+                - testSuggestions: list of test case suggestions
+
+                No markdown, no explanation.""";
+
+        String userPrompt = String.format("Title: %s\nType: %s\nDescription: %s",
+                ticketTitle,
+                ticketType != null ? ticketType : "STORY",
+                ticketDescription != null ? ticketDescription : "(no description)");
+
+        String response = callClaude(systemPrompt, userPrompt);
+        return parseAcceptanceCriteria(response);
+    }
+
+    @Override
+    public SprintReportResult generateSprintReport(String sprintName, String sprintGoal, List<String> completedTickets,
+                                                   List<String> inProgressTickets, List<String> blockedTickets,
+                                                   int totalPoints, int completedPoints) {
+        String systemPrompt = """
+                You are an expert scrum master. Generate a concise sprint report based on the sprint data.
+
+                Respond ONLY with a JSON object containing:
+                - summary: a brief overall sprint summary (2-3 sentences)
+                - completedItems: list of completed work highlights
+                - blockers: list of identified blockers or impediments
+                - recommendations: list of actionable recommendations for the next sprint
+                - velocityAssessment: a brief velocity assessment (1-2 sentences)
+
+                No markdown, no explanation.""";
+
+        String userPrompt = String.format("""
+                Sprint: %s
+                Goal: %s
+                Velocity: %d/%d points completed
+                Completed tickets: %s
+                In progress: %s
+                Blocked: %s""",
+                sprintName,
+                sprintGoal != null ? sprintGoal : "(no goal set)",
+                completedPoints, totalPoints,
+                String.join(", ", completedTickets),
+                String.join(", ", inProgressTickets),
+                String.join(", ", blockedTickets));
+
+        String response = callClaude(systemPrompt, userPrompt);
+        return parseSprintReport(response);
+    }
+
+    @Override
+    public ChangelogResult generateChangelog(String releaseName, String version, List<String> ticketSummaries) {
+        String systemPrompt = """
+                You are a technical writer. Generate a well-structured changelog from the list of tickets in this release.
+                Categorize each item appropriately.
+
+                Respond ONLY with a JSON object containing:
+                - version: the version string
+                - date: today's date in YYYY-MM-DD format
+                - features: list of new features
+                - bugFixes: list of bug fixes
+                - improvements: list of improvements/enhancements
+                - breakingChanges: list of breaking changes (if any)
+
+                No markdown, no explanation.""";
+
+        String userPrompt = String.format("Release: %s\nVersion: %s\nTickets:\n%s",
+                releaseName,
+                version != null ? version : "unreleased",
+                String.join("\n", ticketSummaries));
+
+        String response = callClaude(systemPrompt, userPrompt);
+        return parseChangelog(response);
+    }
+
+    @Override
+    public String suggestAssignee(String ticketTitle, String ticketDescription, String ticketType, List<String> teamMembers) {
+        String systemPrompt = """
+                You are a project manager helping assign work to team members. Based on the ticket details \
+                and available team members, suggest the most appropriate assignee and explain why briefly.
+
+                Respond with a short text (2-3 sentences) suggesting who should work on this and why.""";
+
+        String userPrompt = String.format("Title: %s\nType: %s\nDescription: %s\n\nAvailable team members: %s",
+                ticketTitle,
+                ticketType != null ? ticketType : "TASK",
+                ticketDescription != null ? ticketDescription : "(no description)",
+                String.join(", ", teamMembers));
+
+        return callClaude(systemPrompt, userPrompt);
+    }
+
+    private AcceptanceCriteriaResult parseAcceptanceCriteria(String json) {
+        try {
+            String cleaned = cleanJsonResponse(json);
+            return objectMapper.readValue(cleaned, AcceptanceCriteriaResult.class);
+        } catch (Exception e) {
+            log.error("Failed to parse acceptance criteria response: {}", e.getMessage());
+            return new AcceptanceCriteriaResult(List.of(), List.of());
+        }
+    }
+
+    private SprintReportResult parseSprintReport(String json) {
+        try {
+            String cleaned = cleanJsonResponse(json);
+            return objectMapper.readValue(cleaned, SprintReportResult.class);
+        } catch (Exception e) {
+            log.error("Failed to parse sprint report response: {}", e.getMessage());
+            return new SprintReportResult("Unable to generate report", List.of(), List.of(), List.of(), "");
+        }
+    }
+
+    private ChangelogResult parseChangelog(String json) {
+        try {
+            String cleaned = cleanJsonResponse(json);
+            return objectMapper.readValue(cleaned, ChangelogResult.class);
+        } catch (Exception e) {
+            log.error("Failed to parse changelog response: {}", e.getMessage());
+            return new ChangelogResult("", "", List.of(), List.of(), List.of(), List.of());
+        }
+    }
+
     private String callClaude(String systemPrompt, String userPrompt) {
         if (apiKey == null || apiKey.isBlank()) {
             log.warn("AI API key not configured, returning empty response");
