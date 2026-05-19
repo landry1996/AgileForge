@@ -13,25 +13,64 @@ import { AuthService } from '../core/services/auth.service';
       </div>
 
       <nav class="sidebar-nav">
+        <div class="nav-section-label">Planning</div>
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">📊</span>
           <span class="nav-label">Dashboard</span>
-        </a>
-        <a routerLink="/board" routerLinkActive="active" class="nav-item">
-          <span class="nav-icon">📋</span>
-          <span class="nav-label">Board</span>
         </a>
         <a routerLink="/backlog" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">📝</span>
           <span class="nav-label">Backlog</span>
         </a>
+        <a routerLink="/board" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Board</span>
+        </a>
         <a routerLink="/sprints" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">🏃</span>
           <span class="nav-label">Sprints</span>
         </a>
+
+        <div class="nav-section-label">Development</div>
+        <a routerLink="/releases" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Releases</span>
+        </a>
+        <a routerLink="/roadmap" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🗺</span>
+          <span class="nav-label">Roadmap</span>
+        </a>
+        <a routerLink="/analytics" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span class="nav-label">Analytics</span>
+        </a>
+
+        <div class="nav-section-label">Tools</div>
         <a routerLink="/ai" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">🤖</span>
           <span class="nav-label">AI Assistant</span>
+        </a>
+        <a routerLink="/prompts" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">💬</span>
+          <span class="nav-label">Prompts</span>
+        </a>
+        <a routerLink="/documents" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📄</span>
+          <span class="nav-label">Documents</span>
+        </a>
+        <a routerLink="/knowledge" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🧠</span>
+          <span class="nav-label">Knowledge Base</span>
+        </a>
+
+        <div class="nav-section-label">Management</div>
+        <a routerLink="/time" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">⏱</span>
+          <span class="nav-label">Time Tracking</span>
+        </a>
+        <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-label">Settings</span>
         </a>
       </nav>
 
@@ -69,6 +108,18 @@ import { AuthService } from '../core/services/auth.service';
     .sidebar-nav {
       flex: 1;
       padding: 12px 0;
+      overflow-y: auto;
+    }
+    .nav-section-label {
+      padding: 16px 20px 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #484f58;
+    }
+    .nav-section-label:first-child {
+      padding-top: 4px;
     }
     .nav-item {
       display: flex;
