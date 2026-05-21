@@ -42,6 +42,10 @@ class AiAssistantControllerTest {
     @MockBean
     private UserDetailsService userDetailsService;
 
+    @SuppressWarnings("unused")
+    @MockBean
+    private com.agileforge.application.service.ApiKeyService apiKeyService;
+
     @Test
     @WithMockUser
     @DisplayName("POST /api/ai/generate-tickets - should generate tickets")

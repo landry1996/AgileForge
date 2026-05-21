@@ -1,5 +1,6 @@
 package com.agileforge.infrastructure.web.controller;
 
+import com.agileforge.application.service.ApiKeyService;
 import com.agileforge.application.service.SprintService;
 import com.agileforge.domain.model.Sprint;
 import com.agileforge.domain.port.out.TicketRepositoryPort;
@@ -46,6 +47,9 @@ class SprintControllerTest {
 
     @MockBean
     private UserDetailsService userDetailsService;
+
+    @MockBean
+    private ApiKeyService apiKeyService;
 
     @Test
     @WithMockUser

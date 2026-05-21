@@ -45,6 +45,10 @@ class NotificationControllerTest {
     @MockBean
     private UserDetailsService userDetailsService;
 
+    @SuppressWarnings("unused")
+    @MockBean
+    private com.agileforge.application.service.ApiKeyService apiKeyService;
+
     @Test
     @WithMockUser(username = "user@test.com")
     @DisplayName("GET /notifications - should return notifications list")

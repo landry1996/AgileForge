@@ -36,6 +36,10 @@ class SearchControllerTest {
     @MockBean
     private UserDetailsService userDetailsService;
 
+    @SuppressWarnings("unused")
+    @MockBean
+    private com.agileforge.application.service.ApiKeyService apiKeyService;
+
     @Test
     @WithMockUser
     @DisplayName("GET /search/tickets - should return search results")

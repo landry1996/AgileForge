@@ -5,6 +5,7 @@ import com.agileforge.application.dto.response.WebhookResponse;
 import com.agileforge.domain.exception.EntityNotFoundException;
 import com.agileforge.domain.model.WebhookSubscription;
 import com.agileforge.domain.port.out.WebhookRepositoryPort;
+import com.agileforge.infrastructure.webhook.WebhookDeliveryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,11 @@ public class WebhookService {
     private static final Logger log = LoggerFactory.getLogger(WebhookService.class);
 
     private final WebhookRepositoryPort webhookRepository;
+    private final WebhookDeliveryService deliveryService;
 
-    public WebhookService(WebhookRepositoryPort webhookRepository) {
+    public WebhookService(WebhookRepositoryPort webhookRepository, WebhookDeliveryService deliveryService) {
         this.webhookRepository = webhookRepository;
+        this.deliveryService = deliveryService;
     }
 
     public WebhookResponse createWebhook(UUID projectId, CreateWebhookRequest request) {
@@ -68,10 +71,8 @@ public class WebhookService {
         List<WebhookSubscription> subscriptions = webhookRepository.findActiveByProjectIdAndEvent(projectId, event);
 
         for (WebhookSubscription subscription : subscriptions) {
-            // Log delivery for now (actual HTTP delivery would be async)
             log.info("Webhook triggered: {} -> {} (event: {})", subscription.getId(), subscription.getUrl(), event);
-            subscription.setLastTriggeredAt(Instant.now());
-            webhookRepository.save(subscription);
+            deliveryService.deliver(subscription, event, payload);
         }
     }
 

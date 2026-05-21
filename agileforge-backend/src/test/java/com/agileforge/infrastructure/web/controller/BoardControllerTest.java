@@ -42,6 +42,10 @@ class BoardControllerTest {
     @MockBean
     private UserDetailsService userDetailsService;
 
+    @SuppressWarnings("unused")
+    @MockBean
+    private com.agileforge.application.service.ApiKeyService apiKeyService;
+
     @Test
     @WithMockUser
     @DisplayName("GET /api/board/project/{id} - should return board view")

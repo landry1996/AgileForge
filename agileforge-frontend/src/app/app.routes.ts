@@ -32,6 +32,13 @@ export const routes: Routes = [
       { path: 'tickets/:id', loadComponent: () => import('./features/ticket-detail/ticket-detail.component').then(m => m.TicketDetailComponent) },
       { path: 'search', loadComponent: () => import('./features/search/search.component').then(m => m.SearchComponent) },
       { path: 'profile', loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent) },
+      { path: 'audit', loadComponent: () => import('./features/audit/audit.component').then(m => m.AuditComponent) },
+      { path: 'portfolio', loadComponent: () => import('./features/portfolio/portfolio.component').then(m => m.PortfolioComponent) },
+      { path: 'capacity', loadComponent: () => import('./features/capacity/capacity.component').then(m => m.CapacityComponent) },
+      { path: 'incidents', loadComponent: () => import('./features/incidents/incidents.component').then(m => m.IncidentsComponent) },
+      { path: 'webhooks', loadComponent: () => import('./features/webhooks/webhooks.component').then(m => m.WebhooksComponent) },
+      { path: 'api-keys', loadComponent: () => import('./features/api-keys/api-keys.component').then(m => m.ApiKeysComponent) },
+      { path: 'client-portal', loadComponent: () => import('./features/client-portal/client-portal.component').then(m => m.ClientPortalComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

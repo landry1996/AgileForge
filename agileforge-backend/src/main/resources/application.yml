@@ -87,3 +87,7 @@ agileforge:
     model: ${AI_MODEL:claude-sonnet-4-20250514}
     max-tokens: 4096
     rate-limit-per-minute: 30
+  oauth2:
+    enabled: ${OAUTH2_ENABLED:false}
+    issuer-uri: ${OAUTH2_ISSUER_URI:http://localhost:8180/realms/agileforge}
+    client-id: ${OAUTH2_CLIENT_ID:agileforge-api}

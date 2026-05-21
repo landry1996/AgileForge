@@ -72,6 +72,36 @@ import { AuthService } from '../core/services/auth.service';
           <span class="nav-icon">⚙</span>
           <span class="nav-label">Settings</span>
         </a>
+
+        <div class="nav-section-label">Enterprise</div>
+        <a routerLink="/portfolio" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Portfolio</span>
+        </a>
+        <a routerLink="/capacity" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Capacity</span>
+        </a>
+        <a routerLink="/incidents" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🚨</span>
+          <span class="nav-label">Incidents</span>
+        </a>
+        <a routerLink="/audit" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span class="nav-label">Audit Trail</span>
+        </a>
+        <a routerLink="/client-portal" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🌐</span>
+          <span class="nav-label">Client Portal</span>
+        </a>
+        <a routerLink="/webhooks" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔗</span>
+          <span class="nav-label">Webhooks</span>
+        </a>
+        <a routerLink="/api-keys" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔑</span>
+          <span class="nav-label">API Keys</span>
+        </a>
       </nav>
 
       <div class="sidebar-footer">
