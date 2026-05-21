@@ -39,6 +39,11 @@ export const routes: Routes = [
       { path: 'webhooks', loadComponent: () => import('./features/webhooks/webhooks.component').then(m => m.WebhooksComponent) },
       { path: 'api-keys', loadComponent: () => import('./features/api-keys/api-keys.component').then(m => m.ApiKeysComponent) },
       { path: 'client-portal', loadComponent: () => import('./features/client-portal/client-portal.component').then(m => m.ClientPortalComponent) },
+      { path: 'gamification', loadComponent: () => import('./features/gamification/gamification.component').then(m => m.GamificationComponent) },
+      { path: 'ai-agents', loadComponent: () => import('./features/ai-agents/ai-agents.component').then(m => m.AiAgentsComponent) },
+      { path: 'integrations', loadComponent: () => import('./features/integrations/integrations.component').then(m => m.IntegrationsComponent) },
+      { path: 'marketplace', loadComponent: () => import('./features/marketplace/marketplace.component').then(m => m.MarketplaceComponent) },
+      { path: 'collaboration', loadComponent: () => import('./features/collaboration/collaboration.component').then(m => m.CollaborationComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

@@ -102,6 +102,28 @@ import { AuthService } from '../core/services/auth.service';
           <span class="nav-icon">🔑</span>
           <span class="nav-label">API Keys</span>
         </a>
+
+        <div class="nav-section-label">Ecosystem</div>
+        <a routerLink="/gamification" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-label">Gamification</span>
+        </a>
+        <a routerLink="/ai-agents" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label">AI Agents</span>
+        </a>
+        <a routerLink="/integrations" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔌</span>
+          <span class="nav-label">Integrations</span>
+        </a>
+        <a routerLink="/marketplace" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🛒</span>
+          <span class="nav-label">Marketplace</span>
+        </a>
+        <a routerLink="/collaboration" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">👁</span>
+          <span class="nav-label">Collaboration</span>
+        </a>
       </nav>
 
       <div class="sidebar-footer">
